@@ -1,13 +1,6 @@
-# Usage
-
-## Install Role
+# Run Playbook
 
 ```bash
-ansible-galaxy install ndkprd.fortiadc-backup
-```
-
-## Run the Playbook
-
-```bash
-ansible-playbook -i hosts backup.yml
+ansible-galaxy install ndkprd.fad_backup
+ansible-playbook -i hosts test.yaml
 ```
