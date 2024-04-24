@@ -3,7 +3,8 @@
 - name: Backup FortiADC configuration.
   hosts: all
   connection: local
-  become: true
+  become: false
+  ansible_user: ndkprd
   gather_facts: false
   vars:
     the_real_vars: "is located in group_vars"
