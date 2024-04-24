@@ -1,0 +1,4 @@
+tests/hosts
+tests/backup.yml
+tests/group_vars/all.yml
+vscode/*

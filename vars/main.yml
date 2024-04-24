@@ -1,0 +1,19 @@
+---
+# vars file for fortiadc-backup
+
+datestamp: "{{ '%Y%m%d' | strftime }}"
+
+fad_base_url: "https://{{ ansible_host }}/api"
+
+fad_api_endpoint:
+  backup_config: "/downloader/config?entire=enable&password=&type=local"
+
+fad_api_uri_params:
+  body_format: json
+  validate_certs: false
+  return_content: true
+  status_code: 200
+
+fad_api_header:
+  'Content-Type': 'application/json'
+  'APITOKEN': '{{ fad_apitoken }}'

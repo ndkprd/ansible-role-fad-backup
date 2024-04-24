@@ -1,0 +1,7 @@
+---
+
+mail:
+  smtp_server: smtp.gmail.com
+  smtp_port: 587
+  recipient: contact@ndkprd.com
+  sender: ansible@ndkprd.com

@@ -1,0 +1,13 @@
+---
+
+- name: Backup FortiADC configuration.
+  hosts: all
+  connection: local
+  become: true
+  gather_facts: false
+  vars:
+    the_real_vars: "is located in group_vars"
+
+  roles:
+    # - ../../ansible-role-fortiadc-backup
+    - ndkprd.fortiadc_backup
