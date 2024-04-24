@@ -33,7 +33,7 @@ Example Playbook
       sender: ansible@ndkprd.com
 
   roles:
-    - ndkprd.fortiadc_backup
+    - ndkprd.fad_backup
 
 ```
 
