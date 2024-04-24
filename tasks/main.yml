@@ -51,7 +51,7 @@
         password: "{{ mail.password | default(omit) }}"
         from: "{{ mail.sender }}"
         to: "{{ mail.recipient }}"
-        subject: "Configuration Backup for FortiADC @ {{ datestamp }}"
+        subject: "{{ mail.subject }}"
         body: "{{ mail.body }}"
         attach: ["{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}.zip"]
       run_once: true

@@ -8,3 +8,4 @@ mail:
   smtp_server: smtp.gmail.com
   smtp_port: 587
   body: ''
+  subject: "Configuration Backup for FortiADC @ {{ datestamp }}"
