@@ -1,8 +1,6 @@
 ---
 # vars file for fortiadc-backup
 
-datestamp: "{{ '%Y%m%d' | strftime }}"
-
 fad_base_url: "https://{{ ansible_host }}/api"
 
 fad_api_endpoint:
@@ -17,3 +15,5 @@ fad_api_uri_params:
 fad_api_header:
   'Content-Type': 'application/json'
   'APITOKEN': '{{ fad_apitoken }}'
+
+fad_backup_datestamp: "{{ '%Y%m%d' | strftime }}"

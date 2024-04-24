@@ -1,0 +1,20 @@
+---
+
+- name: Backup FortiADC configuration.
+  hosts: all
+  connection: local
+  become: true
+  ansible_user: ndkprd
+  gather_facts: false
+  vars:
+    fad_backup_dir: "~/FAD_BACKUP"
+    fad_backup_mail:
+      smtp_server: 10.1.54.10
+      smtp_port: 25
+      recipient: andhika.pradana@asdp.id
+      sender: ansible@asdp.id
+      body: |
+        Hello, your FortiADC configuration is backed up successfully. Check the attachment for the files.
+
+  roles:
+    - ndkprd.fad_backup

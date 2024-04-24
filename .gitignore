@@ -1,4 +1,4 @@
 tests/hosts
-tests/backup.yml
-tests/group_vars/all.yml
-vscode/*
+tests/test.yaml
+tests/group_vars
+.vscode

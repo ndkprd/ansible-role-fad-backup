@@ -2,56 +2,20 @@
 # tasks file for fortiadc-backup
 
 - name: FortiADC Configuration Backup
-  become: true
+  ansible.builtin.import_tasks: fad_downloader_config.yaml
   tags: [fad_backup]
-  block:
 
-    - name: Pull the configuration file using REST API.
-      ansible.builtin.uri:
-        method: GET
-        url: "{{ fad_base_url + fad_api_endpoint.backup_config }}"
-        body_format: "{{ fad_api_uri_params.body_format }}"
-        validate_certs: "{{ fad_api_uri_params.validate_certs }}"
-        return_content: "{{ fad_api_uri_params.return_content }}"
-        status_code: "{{ fad_api_uri_params.status_code }}"
-        headers: "{{ fad_api_header }}"
-      register: fad_backup_result
-
-    - name: Make sure the backup directory exist.
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: directory
-        owner: "{{ ansible_user | default(omit) }}"
-        mode: "0644"
-      loop:
-        - "{{ backup_dir }}"
-        - "{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}"
-      run_once: true
-
-    - name: Write the configuration (in zip binary) into a file.
-      ansible.builtin.template:
-        src: config_backup.zip.j2
-        dest: "{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}/{{ datestamp }}_{{ ansible_host }}.zip"
-        owner: "{{ ansible_user | default(omit) }}"
-        mode: "0644"
-
-    - name: Zip all the configuration backup files.
-      community.general.archive:
-        path: "{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}"
-        dest: "{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}.zip"
-        owner: "{{ ansible_user | default(omit) }}"
-        mode: "0644"
-      run_once: true
-
-    - name: Send the the zipped file via SMTP.
-      community.general.mail:
-        host: "{{ mail.smtp_server }}"
-        port: "{{ mail.smtp_port }}"
-        username: "{{ mail.username | default(omit) }}"
-        password: "{{ mail.password | default(omit) }}"
-        from: "{{ mail.sender }}"
-        to: "{{ mail.recipient }}"
-        subject: "{{ mail.subject }}"
-        body: "{{ mail.body }}"
-        attach: ["{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}.zip"]
-      run_once: true
+- name: Send the the zipped file via SMTP
+  community.general.mail:
+    host: "{{ fad_backup_mail.smtp_server }}"
+    port: "{{ fad_backup_mail.smtp_port }}"
+    username: "{{ fad_backup_mail.username | default(omit) }}"
+    password: "{{ fad_backup_mail.password | default(omit) }}"
+    from: "{{ fad_backup_mail.sender }}"
+    to: "{{ fad_backup_mail.recipient }}"
+    subject: "{{ fad_backup_mail.subject }}"
+    body: "{{ fad_backup_mail.body }}"
+    attach: ["{{ fad_backup_dir }}/FAD_BACKUP_{{ fad_backup_datestamp }}.zip"]
+  when: fad_backup_send_mail | default('true') | bool  == true
+  run_once: true
+  tags: [fad_backup]
