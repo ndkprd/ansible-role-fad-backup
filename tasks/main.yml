@@ -16,9 +16,9 @@
         headers: "{{ fad_api_header }}"
       register: fad_backup_result
 
-    - name: Make sure the backup directory exist in /tmp/.
+    - name: Make sure the backup directory exist.
       ansible.builtin.file:
-        path: "/tmp/FAD_BACKUP_{{ datestamp }}"
+        path: "{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}"
         state: directory
         mode: "0660"
       run_once: true
@@ -26,13 +26,13 @@
     - name: Write the configuration (in zip binary) into a file.
       ansible.builtin.template:
         src: config_backup.zip.j2
-        dest: "/tmp/FAD_BACKUP_{{ datestamp }}/{{ datestamp }}_{{ ansible_host }}.zip"
+        dest: "{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}/{{ datestamp }}_{{ ansible_host }}.zip"
         mode: preserve
 
     - name: Zip all the configuration backup files.
       community.general.archive:
-        path: "/tmp/FAD_BACKUP_{{ datestamp }}"
-        dest: "/tmp/FAD_BACKUP_{{ datestamp }}.zip"
+        path: "{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}"
+        dest: "{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}.zip"
         mode: "0660"
       run_once: true
 
@@ -46,5 +46,5 @@
         to: "{{ mail.recipient }}"
         subject: "Configuration Backup for FortiADC @ {{ datestamp }}"
         body: "{{ mail.body }}"
-        attach: ["/tmp/FAD_BACKUP_{{ datestamp }}.zip"]
+        attach: ["{{ backup_dir }}/FAD_BACKUP_{{ datestamp }}.zip"]
       run_once: true
