@@ -2,6 +2,7 @@
 galaxy_info:
   author: ndkprd
   description: Simple Ansible role to backup FortiADC configurations and send them to you via email.
+  role_name: fortiadc_backup
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
