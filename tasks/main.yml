@@ -39,7 +39,7 @@
     - name: Send the the zipped file via SMTP.
       community.general.mail:
         host: "{{ mail.smtp_server }}"
-        port: "{{ mail.smtp_port | default('25') }}"
+        port: "{{ mail.smtp_port }}"
         username: "{{ mail.username | default(omit) }}"
         password: "{{ mail.password | default(omit) }}"
         from: "{{ mail.sender }}"

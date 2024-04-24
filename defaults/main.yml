@@ -1,2 +1,8 @@
 ---
+
 # defaults file for fortiadc-backup
+
+mail:
+  smtp_server: smtp.gmail.com
+  smtp_port: 587
+  body: ''
